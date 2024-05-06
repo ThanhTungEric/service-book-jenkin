@@ -2,10 +2,7 @@ pipeline {
 
     agent any
 
-    tools { 
-        maven 'my-maven-new'
-        jdk 'my-java-17'
-    }
+    def mvnHome = tool name: 'maven-3.8.6', type: 'maven' sh "${mvnHome}/bin/mvn package"
     environment {
         MYSQL_ROOT_LOGIN = credentials('MYSQL')
     }
