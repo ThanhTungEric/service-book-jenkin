@@ -7,7 +7,7 @@ pipeline {
         jdk 'my-java-17'
     }
     environment {
-        MYSQL_ROOT_LOGIN_PSW = credentials('MYSQL')
+        MYSQL_ROOT_LOGIN = credentials('mysql-root-login')
     }
     stages {
 
@@ -20,6 +20,7 @@ pipeline {
         }
 
         stage('Packaging/Pushing imagae') {
+
             steps {
                 withDockerRegistry(credentialsId: 'DOCKERHUB', url: 'https://index.docker.io/v1/') {
                     sh 'docker build -t thanhtungeric/springboot .'
