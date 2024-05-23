@@ -17,8 +17,4 @@ public class Book {
     private Long bookId;
     private String title;
     private String isbn;
-
-    private Long authorId;
-    private String name;
-    private String address;
 }

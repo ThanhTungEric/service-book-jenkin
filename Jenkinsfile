@@ -9,14 +9,14 @@ pipeline {
         MYSQL_ROOT_LOGIN = credentials('mysql-root-login')
     }
     stages {
-                stage('Initialize') {
-                    steps {
-                        script {
-                            def dockerHome = tool 'docker'
-                            env.PATH = "${dockerHome}/bin:${env.PATH}"
-                        }
-                    }
+       stage('Initialize') {
+          steps {
+                 script {
+                     def dockerHome = tool 'docker'
+                      env.PATH = "${dockerHome}/bin:${env.PATH}"
                 }
+          }
+        }
 
 
         stage('Build with Maven') {
@@ -60,7 +60,7 @@ pipeline {
                 sh 'docker network create dev || echo "this network exists"'
                 sh 'echo y | docker container prune '
 
-                sh 'docker container run -d --rm --name thanhtung-springboot -p 8081:8080 --network dev thanhtungeric/springboot'
+                sh 'docker container run -d --rm --name thanhtung-springboot -p 8081:8081 --network dev thanhtungeric/springboot'
             }
         }
 

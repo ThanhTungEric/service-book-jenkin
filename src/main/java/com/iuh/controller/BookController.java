@@ -29,7 +29,7 @@ public class BookController {
     private final RestTemplateConfig restTemplateConfig;
 
     private static final String BASE_URL
-            = "http://localhost:8080/api/author/";
+            = "http://localhost:8089/api/author/";
 
     private static final String SERVICE_BOOK = "serviceBook";
 
