@@ -9,6 +9,15 @@ pipeline {
         MYSQL_ROOT_LOGIN = credentials('mysql-root-login')
     }
     stages {
+                stage('Initialize') {
+                    steps {
+                        script {
+                            def dockerHome = tool 'myDocker'
+                            env.PATH = "${dockerHome}/bin:${env.PATH}"
+                        }
+                    }
+                }
+
 
         stage('Build with Maven') {
             steps {
