@@ -33,7 +33,7 @@ pipeline {
                         sh 'docker-compose pull'
                         sh 'MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_LOGIN_PSW} docker-compose up -d'
                         sh 'sleep 20'
-                        sh "docker exec -i thanhtung-mysql mysql --user=root --password=${MYSQL_ROOT_LOGIN_PSW} < script"
+                        sh "docker exec -i thanhtung-mysql mysql --user=root --password=123456789 < script"
                     }
                 }
             }
