@@ -1,4 +1,5 @@
 pipeline {
+
     agent any
 
     tools {
@@ -16,7 +17,7 @@ pipeline {
             }
         }
 
-        stage('Packaging/Pushing image') {
+        stage('Packaging/Pushing imagae') {
             steps {
                 withDockerRegistry(credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/') {
                     sh 'docker build -t thanhtungeric/springboot .'
@@ -34,18 +35,9 @@ pipeline {
                 sh 'echo y | docker container prune '
                 sh 'docker volume rm thanhtung-mysql-data || echo "no volume"'
 
-                script {
-                    def mysqlPassword = sh(script: 'echo $MYSQL_ROOT_LOGIN_PSW', returnStdout: true).trim()
-                    sh """
-                        docker run --name thanhtung-mysql --rm --network dev -v thanhtung-mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=${mysqlPassword} -e MYSQL_DATABASE=db_example -d mysql:8.0
-                        sleep 20
-                        while ! docker exec thanhtung-mysql mysqladmin --user=root --password=${mysqlPassword} ping --silent &> /dev/null; do
-                            echo "Waiting for database connection..."
-                            sleep 2
-                        done
-                        docker exec -i thanhtung-mysql mysql --user=root --password=${mysqlPassword} < script
-                    """
-                }
+                sh "docker run --name thanhtung-mysql --rm --network dev -v thanhtung-mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_LOGIN_PSW} -e MYSQL_DATABASE=db_example  -d mysql:8.0 "
+                sh 'sleep 20'
+                sh "docker exec -i thanhtung-mysql mysql --user=root --password=${MYSQL_ROOT_LOGIN_PSW} < script"
             }
         }
 
@@ -60,6 +52,7 @@ pipeline {
                 sh 'docker container run -d --rm --name thanhtung-springboot -p 8081:8080 --network dev thanhtungeric/springboot'
             }
         }
+
     }
     post {
         // Clean after build
