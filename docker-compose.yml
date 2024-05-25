@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: thanhtung-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: db_example
+    volumes:
+      - thanhtung-mysql-data:/var/lib/mysql
+    networks:
+      - dev
+
+  springboot:
+    image: thanhtungeric/springboot
+    container_name: thanhtung-springboot
+    ports:
+      - "8081:8080"
+    networks:
+      - dev
+    depends_on:
+      - mysql
+
+volumes:
+  thanhtung-mysql-data:
+
+networks:
+  dev:
